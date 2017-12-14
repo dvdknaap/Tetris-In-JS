@@ -1,87 +1,34 @@
-var snake;
+var tetris;
 var scoreboard;
-var bottomCanvas;
-var topCanvas;
+var rightCanvas;
+var leftCanvas;
 var canvas;
 
 function setup() {
 	noLoop();
-	canvas = createCanvas(windowWidth, windowHeight);
-	canvas.parent('snakeGame');
+	canvas = createCanvas(670, 450);
+	canvas.parent('tetrisGame');
 
     // Create both of your off-screen graphics buffers
-    topCanvas = createGraphics(windowWidth, 20);
-    bottomCanvas = createGraphics(windowWidth, windowHeight-20);
+    leftCanvas = createGraphics(450, 450);
+    rightCanvas = createGraphics(220, 450);
 
-	scoreboard = new scoreboard(topCanvas, windowWidth,20);
+	scoreboard = new scoreboard(rightCanvas, 220,450);
 
-	snake = new snake(bottomCanvas, scoreboard, windowWidth,windowHeight-20);
-	snake.setFoodLocation();
+	tetris = new tetris(leftCanvas, scoreboard, 450,450);
 }
 
 function draw() {
-	snake.init();
+	tetris.init();
 
-	scoreboard.init(snake);
+	scoreboard.init(tetris);
 
     // Paint the off-screen buffers onto the main canvas
-    image(topCanvas, 0, 0);
-    image(bottomCanvas, 0, 20);
+    image(leftCanvas, 0, 0);
+    image(rightCanvas, 450, 0);
 }
-
-// function mousePressed() {
-// 	console.info(windowWidth, 'windowWidth');
-// 	console.info(windowHeight, 'windowHeight');
-//     fullscreen(!fullscreen());
-// 	//snake.foodEaten();
-// }
-
-// function windowResized() {
-// 	console.info(canvas, 'canvas');
-// 	resizeCanvas(windowWidth, windowHeight);
-// 	console.info(canvas, 'canvas');
-
-// 	// Create both of your off-screen graphics buffers
-// 	topCanvas = createGraphics(windowWidth, 20);
-// 	bottomCanvas = createGraphics(windowWidth, windowHeight-20);
-
-//     // Paint the off-screen buffers onto the main canvas
-//     image(topCanvas, 0, 0);
-//     image(bottomCanvas, 0, 20);
-// }
 
 function keyPressed() {
 
-	if (!snake.snakeDetails.snakeStarted) {
-		//spacebar or enter
-		if ([ENTER, 32, 27].indexOf(keyCode) !== -1) { 
-			clear();
-			snake.snakeDetails.paused = 0;
-			scoreboard.showScore();
-
-			if (!snake.snakeDetails.alive) {
-				snake.restartSnake();
-				snake.setFoodLocation();
-			}
-
-			snake.snakeDetails.snakeStarted = true;
-			snake.init();
-			loop();
-		}
-	} else {
-
-		if (keyCode === 27) {
-			snake.snakeDetails.paused = 1;
-			snake.snakeDetails.snakeStarted = false;
-		} else if (keyCode == UP_ARROW) {
-			snake.ChangeDir(0, -1);
-		} else if (keyCode == DOWN_ARROW) {
-			snake.ChangeDir(0, 1);
-		} else if (keyCode == LEFT_ARROW) {
-			snake.ChangeDir(-1, 0);
-		} else if (keyCode == RIGHT_ARROW) {
-			snake.ChangeDir(1, 0);
-		}
-	}
   return true; // prevent default
 }

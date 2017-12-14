@@ -1,30 +1,37 @@
 function scoreboard(topCanvas, canvasWidth, canvasHeigh) {
-	this.snake;
+	this.tetris;
 
-	this.init = function(snake) {
-		this.snake = snake;
+	this.init = function(tetris) {
+		this.tetris = tetris;
 
-		if (snake.snakeDetails.snakeStarted) {
-			topCanvas.background('rgba(0,255,0, 0.25)');
-			this.showScore();
-		} else {
+		print(canvasWidth, 'canvasWidth');
+		print(canvasHeigh, 'canvasHeigh');
+		topCanvas.background('#d5e6f7');
 
-			topCanvas.background('#f7e697');
-		}
+		//Left line
+		topCanvas.stroke('#7788aa');
+		topCanvas.strokeWeight(5); 
+		topCanvas.line(2, 2, 2, canvasHeigh);
+
+		//Top line
+		topCanvas.stroke('#7788aa');
+		topCanvas.strokeWeight(5); 
+		topCanvas.line(canvasHeigh, 2, 2, 2);
+
+		//Right line
+		topCanvas.stroke('#7788aa');
+		topCanvas.strokeWeight(5); 
+		topCanvas.line(canvasHeigh-232, 0, canvasHeigh-232, canvasHeigh);
+
+		//Right line
+		topCanvas.stroke('#7788aa');
+		topCanvas.strokeWeight(5); 
+		topCanvas.line(canvasWidth, canvasHeigh-2, 0, canvasHeigh-2);
 	}
 
 	this.updateScore = function () {
-		this.snake.snakeDetails.score += this.snake.scoreMultiplier;
-		this.showScore();
 	}
 
-	this.showScore = function () {		
-		topCanvas.textStyle(BOLD);
-		topCanvas.textAlign(LEFT);
-		topCanvas.text("Snake v1.0", 40, 15);
-
-		topCanvas.textStyle(NORMAL);
-		topCanvas.textAlign(RIGHT);
-		topCanvas.text('Score: '+this.snake.snakeDetails.score, canvasWidth-40, 15);
+	this.showScore = function () {	
 	}
 }
